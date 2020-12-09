@@ -21,6 +21,7 @@ const Main = (props) => {
           const imageName = studentImage.current.files[0].name
           const s3Response = await s3.uploadFile(image, imageName);
           const imgUrl = s3Response.location.toString();
+
           const rollno = studentRollno.current.value
           const _class = studentClass.current.value
           console.log({name, imgUrl, _class, rollno})
@@ -56,17 +57,20 @@ const Main = (props) => {
               <div className="form-group mr-sm-2">
              <label>Student Image</label>
               <input
+              className="form-control"
               placeholder="Enter student Image URL"
               type="file"
               ref={studentImage}
               required />
           </div>
-        </div>
-        <hr />
+          <button type="submit" className="btn btn-block btn-success">Add Student</button>
+        </form>
+      </div>
+      </div>
+        <hr/>
         <h2>Student Details</h2>
-        <br />
+        <br/>
         <div class="container">
-<<<<<<< HEAD
         <table className="table">
           <thead>
             <tr>
@@ -97,36 +101,6 @@ const Main = (props) => {
           </tbody>
         </table>
        </div>
-=======
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Sno.</th>
-                <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">Class</th>
-                <th scope="col">RollNo</th>
-              </tr>
-            </thead>
-            <tbody id="studentList">
-              {this.props.students.map((student, key) => {
-                const imageURI = "data:/jpeg;base64," + student.imageHash;
-                return (
-                  <tr key={key}>
-                    <th scope="row">{student.id.toString()}</th>
-                    <td>
-                      <img src={imageURI} className="img-thumbnail" />
-                    </td>
-                    <td>{student.nameHash}</td>
-                    <td>{student.classHash}</td>
-                    <td>{student.rollnoHash}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
->>>>>>> db08f227893e5aa1921c017628e91215b0f20f43
       </div>
     );
   }

@@ -3,7 +3,7 @@ const College = require("./build/College.json");
 
 const instance = new web3.eth.Contract(
   JSON.parse(College.interface),
-  "0x2517E4CC4A4B00Fffec7F5BC2c2E66F1b3591A59"
+  '0x4e1afb4b57E21aBe1a31fe4F1E8544c3dEf48619'
 );
 
 module.exports = instance;
