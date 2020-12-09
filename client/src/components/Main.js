@@ -1,11 +1,6 @@
-import React, { Component, useRef } from "react";
-const imageToBase64 = require("image-to-base64");
+import React, { Component } from "react";
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.studentImage = useRef();
-  }
   render() {
     return (
       <div>
@@ -13,15 +8,13 @@ class Main extends Component {
           <h2>Add Student</h2>
           <div class="jumbotron">
             <form
-              onSubmit={async event => {
+              onSubmit={event => {
                 event.preventDefault();
                 const name = this.studentName.value;
-                const imageLocal = this.studentImage.current.files[0];
-                const imageBase64 = await imageToBase64(imageLocal);
-                console.log(imageBase64);
+                const image = this.studentImage.value;
                 const rollno = this.studentRollno.value;
                 const _class = this.studentClass.value;
-                // this.props.addStudent(name, image, _class, rollno);
+                this.props.addStudent(name, image, _class, rollno);
               }}
             >
               <div className="form-group mr-sm-2">
@@ -69,8 +62,10 @@ class Main extends Component {
                   className="form-control"
                   placeholder="Enter student Image URL"
                   id="studentImage"
-                  type="file"
-                  ref={this.studentImage}
+                  type="text"
+                  ref={input => {
+                    this.studentImage = input;
+                  }}
                   required
                 />
               </div>
