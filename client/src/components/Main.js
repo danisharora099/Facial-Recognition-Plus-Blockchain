@@ -91,11 +91,12 @@ class Main extends Component {
             </thead>
             <tbody id="studentList">
               {this.props.students.map((student, key) => {
+                const imageURI = "data:/jpeg;base64," + student.imageHash;
                 return (
                   <tr key={key}>
                     <th scope="row">{student.id.toString()}</th>
                     <td>
-                      <img src={student.imageHash} className="img-thumbnail" />
+                      <img src={imageURI} className="img-thumbnail" />
                     </td>
                     <td>{student.nameHash}</td>
                     <td>{student.classHash}</td>
