@@ -1,59 +1,64 @@
-import React, { Component, Fragment } from 'react';
+import React, { useRef } from 'react';
+import S3 from "../s3/s3";
 
-class Main extends Component {
+const Main = (props) => {
 
-  render() {
-    return (
+  const studentImage = useRef();
+  const studentClass = useRef()
+  const studentName = useRef()
+  const studentRollno = useRef();
+
+  return (
   <div>
-    <div className="">  
+    <div className>  
       <h2>Add Student</h2>
       <div class="jumbotron">
-        <form onSubmit={(event) => {
+         <form onSubmit={async (event) => {     
           event.preventDefault()
-          const name = this.studentName.value
-          const image = this.studentImage.value
-          const rollno = this.studentRollno.value
-          const _class = this.studentClass.value
-          this.props.addStudent(name, image, _class, rollno)
+          const s3 = new S3(); 
+          const name = studentName.current.value
+          const image = studentImage.current.files[0];
+          const imageName = studentImage.current.files[0].name
+          const s3Response = await s3.uploadFile(image, imageName);
+          const imgUrl = s3Response.location.toString();
+          const rollno = studentRollno.current.value
+          const _class = studentClass.current.value
+          console.log({name, imgUrl, _class, rollno})
+          props.addStudent(name, imgUrl, _class, rollno)
         }}>
           <div className="form-group mr-sm-2">
             <label>Student Name</label>
             <input
-              id="studentName"
               placeholder="Enter Student Full Name"
               type="text"
-              ref={(input) => { this.studentName = input }}
+              ref={studentName}
               className="form-control"
               required />
           </div>
           <div className="form-group mr-sm-2">
             <label>Student CLass & Sec</label>
             <input
-              id="studentClass"
               placeholder="Enter Student Class & Sec"
               type="text"
-              ref={(input) => { this.studentClass = input }}
+              ref={studentClass}
               className="form-control"
               required />
               </div>
               <div className="form-group mr-sm-2">
             <label>Student RollNo.</label>
             <input
-              id="studentRollno"
               placeholder="Enter Student Rollno."
               type="text"
-              ref={(input) => { this.studentRollno = input }}
+              ref={studentRollno}
               className="form-control"
               required />
               </div>
               <div className="form-group mr-sm-2">
              <label>Student Image</label>
               <input
-              className="form-control"
               placeholder="Enter student Image URL"
-              id="studentImage"
-              type="text"
-              ref={(input) => { this.studentImage = input }}
+              type="file"
+              ref={studentImage}
               required />
           </div>
           <button type="submit" className="btn btn-block btn-success">Add Student</button>
@@ -74,15 +79,14 @@ class Main extends Component {
               <th scope="col">RollNo</th>
             </tr>
           </thead>
-          <tbody id="studentList">
-            { this.props.students.map((student, key) => {
+          <tbody>
+            { props.students.map((student, key) => {
               return(
                 <tr key={key}>
                   <th scope="row">{student.id.toString()}</th>
                   <td>
                     <img
                       src={student.imageHash}
-                      
                       className="img-thumbnail"
                     />  
                   </td>
@@ -98,6 +102,5 @@ class Main extends Component {
       </div>
     );
   }
-}
 
 export default Main;

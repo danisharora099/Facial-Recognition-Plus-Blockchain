@@ -53,9 +53,9 @@ class App extends Component {
     this.addStudent = this.addStudent.bind(this)
   }
 
- async addStudent(name, image, rollno, _class) {
+ async addStudent(name, imgUrl, rollno, _class) {
     this.setState({ loading: true })
-    await CollegeInstance.methods.createStudent(name, image, rollno, _class).send({from: this.state.account}).once('recipt', (recipt) => {
+    await CollegeInstance.methods.createStudent(name, imgUrl, rollno, _class).send({from: this.state.account}).once('recipt', (recipt) => {
       this.setState({loading: false})
     })
   }
