@@ -33,6 +33,5 @@ export default function Upload() {
         <button>Add</button>
       </form>    
     </div>  
-
   );
 }
