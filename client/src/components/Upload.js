@@ -5,12 +5,19 @@ import S3 from "../s3/s3";
 
 export default function Upload() {
   const fileInput = useRef();
-  const s3 = new S3();
+
   const handleSubmit = async e => {
     e.preventDefault();
-    const videoUrl = await s3.uploadFile(file, filename);
+    const s3 = new S3();
+    const file = fileInput.current.files[0];
+    const filename = file.name;
+    const s3Response = await s3.uploadFile(file, filename);
+    const videoUrl = s3Response.location;
+    console.log(videoUrl);
     try {
-      const studentDetails = axios.post("http://localhost:4000", { videoUrl });
+      const studentDetails = await axios.post("http://localhost:4000", {
+        videoUrl
+      });
     } catch (error) {
       alert(error);
     }
@@ -20,7 +27,7 @@ export default function Upload() {
     <div>
       <h1>Upload</h1>
 
-      <form onSubmit={handleSubmit()}>
+      <form onSubmit={handleSubmit}>
         <div>
           <input type="file" ref={fileInput} />
         </div>
