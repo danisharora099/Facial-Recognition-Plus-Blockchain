@@ -4,6 +4,7 @@ from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
 import base64
 from flask import jsonify
+import requests
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -25,6 +26,12 @@ def create_names_arr(dataJson):
         namesArr.append(dataJson["data"][index]["1"])
     return namesArr
 
+def save_video(url):
+    r = requests.get(url) 
+    with open("./input/video/video.mp4",'wb') as f: 
+        f.write(r.content)
+    return True
+
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
@@ -32,9 +39,9 @@ def main():
         dataJson = request.get_json()
         load_images_from_b64(dataJson)
         namesArr = create_names_arr(dataJson)
-
+        save_video(dataJson['videoUrl'])
         # Open the input movie file
-        input_movie = cv2.VideoCapture("./input/video/laptop.mp4")
+        input_movie = cv2.VideoCapture("./input/video/video.mp4")
         length = int(input_movie.get(cv2.CAP_PROP_FRAME_COUNT))
 
         # Create an output movie file (make sure resolution/frame rate matches input video!)
