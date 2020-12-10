@@ -2,29 +2,40 @@ from cv2 import cv2
 import face_recognition
 from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
-import base64
+# import base64
 from flask import jsonify
 import requests
+import boto3
+from botocore.config import Config
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
-def load_images_from_b64(dataJson):
-    for index in range(0, len(dataJson["data"])):
-        b64_str = dataJson["data"][index]["2"]
-        b64_data = base64.b64decode(b64_str)
-        filename = "./input/dataset/image{}.png".format(index + 1)
-        with open(filename, 'wb') as f:
-            f.write(b64_data)
-
+s3Config = Config(
+    region_name = 'ap-south-1',
+    signature_version = 'v4',
+    retries = {
+        'max_attempts': 10,
+        'mode': 'standard'
+    }
+)
 
 def create_names_arr(dataJson):
     namesArr = []
     for index in range(0, len(dataJson["data"])):
-        namesArr.append(dataJson["data"][index]["1"])
+        namesArr.append(dataJson["data"][index]["name"])
     return namesArr
+
+def save_student_images(dataJson):
+    for index in range(0, len(dataJson["data"])):
+        # b64_str = dataJson["data"][index]["2"]
+        # b64_data = base64.b64decode(b64_str)
+        url = dataJson["data"][index]["imageUrl"]
+        r = requests.get(url) 
+        filename = "./input/dataset/image{}.png".format(index + 1)
+        with open(filename, 'wb') as f:
+            f.write(r.content)
 
 def save_video(url):
     r = requests.get(url) 
@@ -32,12 +43,19 @@ def save_video(url):
         f.write(r.content)
     return True
 
+def upload_video_s3(videoPath):
+    s3 = boto3.client('s3')
+    with open(videoPath, 'rb') as data:
+        s3.upload_fileobj(data, 'testing213', 'python.avi', ExtraArgs={'ACL': 'public-read'})
+    print('uploaded to s3')
+    return "https://testing213.s3.ap-south-1.amazonaws.com/python.avi"
+
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
     if request.method == "POST":
         dataJson = request.get_json()
-        load_images_from_b64(dataJson)
+        save_student_images(dataJson)
         namesArr = create_names_arr(dataJson)
         save_video(dataJson['videoUrl'])
         # Open the input movie file
@@ -129,11 +147,13 @@ def main():
             print("Writing frame {} / {}".format(frame_number, length))
             print("found:", name)
             output_movie.write(frame)
-            # return jsonify(found=peopleFound)
 
         # All done!
+        uploaded_url = upload_video_s3('./output/output.avi')
         input_movie.release()
         cv2.destroyAllWindows()
+        return jsonify(found=peopleFound, s3_url=uploaded_url)
+        
 
 
 if __name__ == '__main__':

@@ -12,12 +12,19 @@ router.post("/", async (req: express.Request, res: express.Response) => {
     data: studentsData,
     videoUrl,
   };
-  console.log("sending data to python - ", jsonToSend);
   try {
-    const receivedData = await axios.post("http://localhost:6000/", jsonToSend);
-    return res.send({ receivedData });
+    console.log("sending data to python - ", jsonToSend);
+    const receivedData = await axios.post(
+      "http://localhost:6000/",
+      jsonToSend,
+      {
+        timeout: 10000000,
+      }
+    );
+    console.log("received something on node - ", receivedData.data);
+    return res.send(receivedData.data);
   } catch (error) {
-    return res.send({ error: `error from python, ${error} ` });
+    return res.send({ error: `error received on node - ${error}` });
   }
 });
 
