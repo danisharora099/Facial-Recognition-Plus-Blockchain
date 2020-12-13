@@ -5,7 +5,7 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <header>
-      <div>
+      <div className="nav-logo">
         <img src={Logo} alt="header" className="logo" />
         <span>FaceCollege</span>
       </div>

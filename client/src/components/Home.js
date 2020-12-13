@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import web3 from "./web3";
 import CollegeInstance from "./college";
-import Navbar from "./Navbar";
 import Spinner from "./Spinner";
 import Main from "./Main";
 
@@ -53,7 +52,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar account={this.state.account} />
         <br />
         <div className="container-fluid mt-5">
           <div className="row">
