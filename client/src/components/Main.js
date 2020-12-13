@@ -67,7 +67,7 @@ const Main = (props) => {
         </form>
       </div>
       </div>
-        <hr/>
+        {/* <hr/>
         <h2>Student Details</h2>
         <br/>
         <div class="container">
@@ -100,7 +100,7 @@ const Main = (props) => {
             })}
           </tbody>
         </table>
-       </div>
+       </div> */}
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../../assets/Logo.svg";
 import "./Navbar.css";
+import {Link} from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -13,14 +14,14 @@ const Navbar = () => {
         <div className="navb-links">
           <span
             className="nav-link"
-            onClick={() => {
-              window.open("https://medium.com/huddle-01", "_blank");
-            }}
+            // onClick={() => {
+            //   window.open("https://medium.com/huddle-01", "_blank");
+            // }}
           >
-            Add Users
+            <Link>Add Uses</Link>
           </span>
-          <span className="nav-link" onClick={() => console.log("clicked")}>
-            About Us
+          <span className="nav-link">
+            <Link to='/'>Database</Link>
           </span>
         </div>
       </div>

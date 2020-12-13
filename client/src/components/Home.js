@@ -23,6 +23,7 @@ class App extends Component {
       this.setState({
         students: [...this.state.students, student]
       });
+      console.log(this.state.students);
     }
     this.setState({ loading: false });
   }
@@ -53,7 +54,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar account={this.state.account} />
+        {/* <Navbar account={this.state.account} /> */}
         <br />
         <div className="container-fluid mt-5">
           <div className="row">
