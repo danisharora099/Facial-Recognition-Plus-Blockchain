@@ -11,16 +11,9 @@ const Navbar = () => {
       </div>
       <div className="navb-left">
         <div className="navb-links">
-          <span
-            className="nav-link"
-            onClick={() => {
-              window.open("https://medium.com/huddle-01", "_blank");
-            }}
-          >
-            Add Users
-          </span>
+          <span className="nav-link">Add Users</span>
           <span className="nav-link" onClick={() => console.log("clicked")}>
-            About Us
+            Database
           </span>
         </div>
       </div>
