@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useRef } from "react";
 import S3 from "../s3/s3";
+import "./Upload.css";
 
 axios.defaults.timeout = 60 * 5 * 1000;
 
@@ -28,14 +29,40 @@ export default function Upload() {
   };
 
   return (
-    <div className="container mt-2">
-      <h1>Upload</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input type="file" ref={fileInput} />
-        </div>
-        <button>Add</button>
-      </form>
+    <div className="upload">
+      <div id="loader" class="loader">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div className="container mt-2">
+        <h1>Facial recognition, for HMR, made easy.</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              id="uploadInput"
+              type="file"
+              ref={fileInput}
+              onChange={() => {
+                const inputValue = document
+                  .getElementById("uploadInput")
+                  .value.split("\\");
+                const path = inputValue[inputValue.length - 1];
+                document.getElementById("uploadProxy").innerText = path + "  ✓";
+              }}
+            />
+          </div>
+          <span
+            id="uploadProxy"
+            onClick={() => {
+              document.getElementById("uploadInput").click();
+            }}
+          >
+            Select a file
+          </span>
+          <button id="uploadBtn">Upload</button>
+        </form>
+      </div>
     </div>
   );
 }
