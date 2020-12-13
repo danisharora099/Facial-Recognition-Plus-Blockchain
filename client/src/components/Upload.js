@@ -11,9 +11,12 @@ export default function Upload() {
   const handleSubmit = async e => {
     e.preventDefault();
     const s3 = new S3();
+    document.getElementById("loader").classList.add("loader-active");
+    
     const file = fileInput.current.files[0];
     const filename = file.name;
     const s3Response = await s3.uploadFile(file, filename);
+    console.log(s3Response);
     const videoUrl = s3Response.location;
     try {
       console.log("sending data to node");
@@ -21,8 +24,10 @@ export default function Upload() {
         "http://localhost:4000",
         { videoUrl },
         { timeout: 10000000 }
-      );
-      console.log("received on client - ", studentDetails.data);
+        );
+        console.log("received on client - ", studentDetails.data);
+      document.getElementById("loader").classList.remove("loader-active");
+      document.getElementById("upload-form").classList.remove("display-none");
     } catch (error) {
       alert(error);
     }
@@ -35,9 +40,10 @@ export default function Upload() {
         <div class="bar"></div>
         <div class="bar"></div>
       </div>
+
       <div className="container mt-2">
         <h1>Facial recognition, for HMR, made easy.</h1>
-        <form onSubmit={handleSubmit}>
+        <form id="upload-form" onSubmit={handleSubmit}>
           <div>
             <input
               id="uploadInput"
