@@ -7,6 +7,7 @@ const Landing = () => {
   return (
     <div className="landing">
       <center>
+        
         <Upload />
       </center>
     </div>

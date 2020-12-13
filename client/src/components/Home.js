@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import web3 from "./web3";
-import "./App.css";
 import CollegeInstance from "./college";
 import Navbar from "./Navbar";
 import Spinner from "./Spinner";
@@ -41,11 +40,14 @@ class App extends Component {
     this.addStudent = this.addStudent.bind(this);
   }
 
- async addStudent(name, imgUrl, rollno, _class) {
-    this.setState({ loading: true })
-    await CollegeInstance.methods.createStudent(name, imgUrl, rollno, _class).send({from: this.state.account}).once('recipt', (recipt) => {
-      this.setState({loading: false})
-    })
+  async addStudent(name, imgUrl, rollno, _class) {
+    this.setState({ loading: true });
+    await CollegeInstance.methods
+      .createStudent(name, imgUrl, rollno, _class)
+      .send({ from: this.state.account })
+      .once("recipt", recipt => {
+        this.setState({ loading: false });
+      });
   }
 
   render() {
