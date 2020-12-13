@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import web3 from "./web3";
 import CollegeInstance from "./college";
-import Navbar from "./Navbar";
 import Spinner from "./Spinner";
 import Main from "./Main";
 

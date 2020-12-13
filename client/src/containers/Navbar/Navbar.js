@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom'
 const Navbar = () => {
   return (
     <header>
-      <div>
+      <div className="nav-logo">
         <img src={Logo} alt="header" className="logo" />
         <span>FaceCollege</span>
       </div>
@@ -18,10 +18,10 @@ const Navbar = () => {
             //   window.open("https://medium.com/huddle-01", "_blank");
             // }}
           >
-            <Link>Add Uses</Link>
+            <Link to='/addUser'>Add User</Link>
           </span>
           <span className="nav-link">
-            <Link to='/'>Database</Link>
+            <Link to='/database'>Database</Link>
           </span>
         </div>
       </div>

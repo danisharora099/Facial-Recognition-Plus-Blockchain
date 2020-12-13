@@ -1,7 +1,3 @@
-.loader {
-  display: none;
-}
-
 #uploadInput {
   visibility: hidden;
 }
@@ -9,13 +5,13 @@
 #uploadProxy {
   cursor: pointer;
   padding: 15px 50px;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   margin-right: 20px;
 }
 
 #uploadBtn {
   background: var(--primary);
-  border: 1px solid #ccc;
+  border: 1px solid black;
   padding: 15px 200px;
   margin-right: 20px;
   background: var(--primary);
@@ -30,10 +26,52 @@
   letter-spacing: 1.25px;
   font-size: 14px;
 }
-.round:hover {
-}
 
 #uploadBtn:hover {
   color: white;
   opacity: 0.9;
+}
+.loader {
+  display: none;
+}
+
+.display-none {
+  display: none;
+}
+
+.loader-active {
+  position: absolute;
+  left: 48vw;
+  top: 55vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.loader .bar {
+  width: 10px;
+  height: 5px;
+  background: #10c15c;
+  margin: 2px;
+  animation: bar 1s infinite linear;
+}
+.loader .bar:nth-child(1) {
+  animation-delay: 0s;
+}
+.loader .bar:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.loader .bar:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+@keyframes bar {
+  0% {
+    transform: scaleY(1) scaleX(0.5);
+  }
+  50% {
+    transform: scaleY(10) scaleX(1);
+  }
+  100% {
+    transform: scaleY(1) scaleX(0.5);
+  }
 }

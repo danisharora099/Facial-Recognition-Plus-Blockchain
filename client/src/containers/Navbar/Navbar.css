@@ -3,6 +3,15 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+
+.nav-logo {
+  cursor: pointer;
+}
+
+.logo {
+  padding-right: 8px;
 }
 
 .navb-left {
@@ -11,7 +20,7 @@ header {
 }
 
 .navb-left a {
-  color: white;
+  color: black;
   margin: 0 1.5rem;
 }
 
@@ -36,7 +45,9 @@ header {
   display: flex;
 }
 .nav-link {
-  color: #fff;
+  color: black;
+  text-transform: uppercase;
+  margin-right: 20px;
 }
 .nav-link:hover {
   cursor: pointer;
