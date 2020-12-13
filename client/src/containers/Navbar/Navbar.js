@@ -7,8 +7,12 @@ const Navbar = () => {
   return (
     <header>
       <div className="nav-logo">
+        <Link to='/'>
         <img src={Logo} alt="header" className="logo" />
-        <span>FaceCollege</span>
+        <span>
+          FaceCollege
+        </span>
+        </Link>
       </div>
       <div className="navb-left">
         <div className="navb-links">
