@@ -1,73 +1,82 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import S3 from "../s3/s3";
 
-const Main = (props) => {
-
+const Main = props => {
   const studentImage = useRef();
-  const studentClass = useRef()
-  const studentName = useRef()
+  const studentClass = useRef();
+  const studentName = useRef();
   const studentRollno = useRef();
 
   return (
-  <div>
-    <div className>  
-      <h2>Add Student</h2>
-      <div class="jumbotron">
-         <form onSubmit={async (event) => {     
-          event.preventDefault()
-          const s3 = new S3(); 
-          const name = studentName.current.value
-          const image = studentImage.current.files[0];
-          const imageName = studentImage.current.files[0].name
-          const s3Response = await s3.uploadFile(image, imageName);
-          const imgUrl = s3Response.location.toString();
+    <div>
+      <div className>
+        <center>
+          <h2>Add Student</h2>
+        </center>
+        <div class="jumbotron">
+          <form
+            onSubmit={async event => {
+              event.preventDefault();
+              const s3 = new S3();
+              const name = studentName.current.value;
+              const image = studentImage.current.files[0];
+              const imageName = studentImage.current.files[0].name;
+              const s3Response = await s3.uploadFile(image, imageName);
+              const imgUrl = s3Response.location.toString();
 
-          const rollno = studentRollno.current.value
-          const _class = studentClass.current.value
-          console.log({name, imgUrl, _class, rollno})
-          props.addStudent(name, imgUrl, _class, rollno)
-        }}>
-          <div className="form-group mr-sm-2">
-            <label>Student Name</label>
-            <input
-              placeholder="Enter Student Full Name"
-              type="text"
-              ref={studentName}
-              className="form-control"
-              required />
-          </div>
-          <div className="form-group mr-sm-2">
-            <label>Student CLass & Sec</label>
-            <input
-              placeholder="Enter Student Class & Sec"
-              type="text"
-              ref={studentClass}
-              className="form-control"
-              required />
-              </div>
-              <div className="form-group mr-sm-2">
-            <label>Student RollNo.</label>
-            <input
-              placeholder="Enter Student Rollno."
-              type="text"
-              ref={studentRollno}
-              className="form-control"
-              required />
-              </div>
-              <div className="form-group mr-sm-2">
-             <label>Student Image</label>
+              const rollno = studentRollno.current.value;
+              const _class = studentClass.current.value;
+              console.log({ name, imgUrl, _class, rollno });
+              props.addStudent(name, imgUrl, _class, rollno);
+            }}
+          >
+            <div className="form-group mr-sm-2">
+              <label>Student Name</label>
               <input
-              className="form-control"
-              placeholder="Enter student Image URL"
-              type="file"
-              ref={studentImage}
-              required />
-          </div>
-          <button type="submit" className="btn btn-block btn-success">Add Student</button>
-        </form>
+                placeholder="Enter Student Full Name"
+                type="text"
+                ref={studentName}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group mr-sm-2">
+              <label>Student CLass & Sec</label>
+              <input
+                placeholder="Enter Student Class & Sec"
+                type="text"
+                ref={studentClass}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group mr-sm-2">
+              <label>Student RollNo.</label>
+              <input
+                placeholder="Enter Student Rollno."
+                type="text"
+                ref={studentRollno}
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="form-group mr-sm-2">
+              <label>Student Image</label>
+              <input
+                className="form-control"
+                placeholder="Enter student Image URL"
+                type="file"
+                ref={studentImage}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-block btn-success">
+              Add Student
+            </button>
+          </form>
+        </div>
       </div>
-      </div>
-        {/* <hr/>
+      {/* <hr/>
         <h2>Student Details</h2>
         <br/>
         <div class="container">
@@ -101,8 +110,8 @@ const Main = (props) => {
           </tbody>
         </table>
        </div> */}
-      </div>
-    );
-  }
+    </div>
+  );
+};
 
 export default Main;

@@ -27,6 +27,16 @@
   font-size: 14px;
 }
 
+#finalResponse {
+  /* margin-bottom: 5vh; */
+  font-size: 24px;
+}
+
+#found {
+  margin-top: 15vh;
+  padding-right: 10vw;
+}
+
 #uploadBtn:hover {
   color: white;
   opacity: 0.9;

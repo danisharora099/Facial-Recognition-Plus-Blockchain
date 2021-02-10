@@ -1,18 +1,17 @@
-import React, { Fragment, Component } from 'react'
+import React, { Fragment, Component } from "react";
 import CollegeInstance from "./college";
 
- class Table extends Component {
+class Table extends Component {
+  state = {
+    students: [],
+    studentCount: 0
+  };
 
-   state = {
-     students: [],
-     studentCount: 0
-   }
-   
-   componentDidMount() {
-      this.loadData()
-    }
+  componentDidMount() {
+    this.loadData();
+  }
 
-   loadData = async () => {
+  loadData = async () => {
     const studentCount = await CollegeInstance.methods.studentCount().call();
     this.setState({ studentCount });
     // Load students
@@ -23,47 +22,47 @@ import CollegeInstance from "./college";
       });
       console.log(this.state.students);
     }
-  }
+  };
 
-   render() {
+  render() {
     return (
-      <Fragment>
-      <h2 className="text-center">Student Details</h2>
-      <br/>
-      <div class="container">
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Sno.</th>
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Class</th>
-            <th scope="col">RollNo</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.state.students.map((s, key) => {
-            return(
-              <tr key={key}>
-                <th scope="row">{s.id.toString()}</th>
-                <td>
-                  <img
-                    src={s.imageHash}
-                    className="img-thumbnail"
-                  />  
-                </td>
-                <td>{s.nameHash}</td>
-                <td>{s.classHash}</td>
-                <td>{s.rollnoHash}</td>
+      <div className="table">
+        <h2 className="text-center">Student Details</h2>
+        <br />
+        <div class="container">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Index</th>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">RollNo</th>
+                <th scope="col">Class</th>
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
-     </div>
-      </Fragment>
-  )
-    }
+            </thead>
+            <tbody>
+              {this.state.students.map((s, key) => {
+                return (
+                  <tr key={key}>
+                    <th scope="row">{s.id.toString()}</th>
+                    <td>
+                      <img
+                        src={s.imageHash}
+                        className="img-thumbnail table-img"
+                      />
+                    </td>
+                    <td>{s.nameHash}</td>
+                    <td>{s.classHash}</td>
+                    <td>{s.rollnoHash}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Table;

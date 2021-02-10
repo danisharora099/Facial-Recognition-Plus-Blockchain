@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useRef } from "react";
 import S3 from "../s3/s3";
 import "./Upload.css";
+import CollegeInstance from "./college";
 
 axios.defaults.timeout = 60 * 5 * 1000;
 
@@ -10,9 +11,10 @@ export default function Upload() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
     const s3 = new S3();
     document.getElementById("loader").classList.add("loader-active");
-    
+    document.getElementById("upload-form").classList.add("display-none");
     const file = fileInput.current.files[0];
     const filename = file.name;
     const s3Response = await s3.uploadFile(file, filename);
@@ -24,10 +26,12 @@ export default function Upload() {
         "http://localhost:4000",
         { videoUrl },
         { timeout: 10000000 }
-        );
-        console.log("received on client - ", studentDetails.data);
+      );
+      console.log("received on client - ", studentDetails.data);
       document.getElementById("loader").classList.remove("loader-active");
-      document.getElementById("upload-form").classList.remove("display-none");
+      const video = document.getElementById("video");
+      document.getElementById("finalResponse").classList.remove("display-none");
+      video.setAttribute("src", studentDetails.data.s3_url);
     } catch (error) {
       alert(error);
     }
@@ -68,6 +72,24 @@ export default function Upload() {
           </span>
           <button id="uploadBtn">Upload</button>
         </form>
+      </div>
+      <div id="finalResponse" className="row display-none">
+        <div className="col-7">
+          <video
+            id="video"
+            width="500"
+            height="500"
+            src="https://facialr.s3.ap-south-1.amazonaws.com/python.avi"
+            controls
+          ></video>
+        </div>
+        <div className="col-5" id="found">
+          <h2>FOUND!</h2>
+          <br />
+          <span className="found-text">
+            <b>Danish Arora</b>, of class <b>CSE 7B</b>, roll number <b>418</b>
+          </span>
+        </div>
       </div>
     </div>
   );

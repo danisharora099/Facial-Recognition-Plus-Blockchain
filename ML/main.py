@@ -7,6 +7,9 @@ from flask import jsonify
 import requests
 import boto3
 from botocore.config import Config
+import moviepy.editor as moviepy
+import os
+# import subprocess
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -20,6 +23,10 @@ s3Config = Config(
         'mode': 'standard'
     }
 )
+
+def convert_avi_to_mp4(avi_file_path, output_name):
+    os.popen("ffmpeg -i '{input}' -ac 2 -b:v 2000k -c:a aac -c:v libx264 -b:a 160k -vprofile high -bf 0 -strict experimental -f mp4 '{output}.mp4'".format(input = avi_file_path, output = output_name)).read()
+    return True
 
 def create_names_arr(dataJson):
     namesArr = []
@@ -46,9 +53,9 @@ def save_video(url):
 def upload_video_s3(videoPath):
     s3 = boto3.client('s3')
     with open(videoPath, 'rb') as data:
-        s3.upload_fileobj(data, 'testing213', 'python.avi', ExtraArgs={'ACL': 'public-read'})
+        s3.upload_fileobj(data, 'facialr', 'python.avi', ExtraArgs={'ACL': 'public-read'})
     print('uploaded to s3')
-    return "https://testing213.s3.ap-south-1.amazonaws.com/python.avi"
+    return "https://facialr.s3.ap-south-1.amazonaws.com/python.avi"
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -147,12 +154,15 @@ def main():
             print("Writing frame {} / {}".format(frame_number, length))
             print("found:", name)
             output_movie.write(frame)
+            
 
         # All done!
-        uploaded_url = upload_video_s3('./output/output.avi')
         input_movie.release()
         cv2.destroyAllWindows()
+        convert_avi_to_mp4('./output/output.avi','./output/output' )
+        uploaded_url = upload_video_s3('./output/output.mp4')
         return jsonify(found=peopleFound, s3_url=uploaded_url)
+        
         
 
 

@@ -18,7 +18,7 @@ export const getStudentsData = async () => {
       index: parseInt(index),
       name,
       imageUrl,
-      rollNo: parseInt(rollNo),
+      rollNo: rollNo,
       classSec,
     } as IStudent;
     students.push(student);
